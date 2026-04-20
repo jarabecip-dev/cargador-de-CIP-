@@ -1,0 +1,37 @@
+{
+  "entities": {
+    "Registro": {
+      "title": "Registro de Operación",
+      "description": "Datos de una tarea operativa ejecutada.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number", "description": "ID consecutivo empezando en 1" },
+        "tarea": { "type": "string", "enum": ["Línea 1", "Línea 2", "Línea 3", "TK 1", "TK 2", "TK 3"] },
+        "fecha": { "type": "string", "format": "date", "description": "YYYY-MM-DD" },
+        "hora": { "type": "string", "description": "HH:mm" },
+        "dato_numerico": { "type": "number", "description": "Valor numérico decimal" },
+        "cip": { "type": "string", "enum": ["CIP1", "CIP2", "CIP3"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tarea", "fecha", "hora", "dato_numerico", "cip", "created_at"]
+    },
+    "Counter": {
+      "title": "Contador de Registros",
+      "description": "Mantiene el conteo para generar IDs consecutivos.",
+      "type": "object",
+      "properties": {
+        "count": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "/registros/{registroId}": {
+      "schema": "Registro",
+      "description": "Colección de registros operativos"
+    },
+    "/counters/registros": {
+      "schema": "Counter",
+      "description": "Contador global para la colección de registros"
+    }
+  }
+}

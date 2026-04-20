@@ -1,0 +1,6 @@
+{
+  "name": "Gestor de Operaciones",
+  "description": "Aplicación para el registro y visualización de tareas operativas con persistencia en la nube.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
