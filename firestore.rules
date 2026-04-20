@@ -9,7 +9,8 @@ service cloud.firestore {
 
     // Common helpers
     function isSignedIn() {
-      return request.auth != null;
+      // Temporarily allowing all access as requested by user
+      return true;
     }
 
     function isValidId(id) {

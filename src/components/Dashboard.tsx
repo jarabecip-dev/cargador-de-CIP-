@@ -39,6 +39,8 @@ export default function Dashboard() {
     );
   }
 
+  // Temporarily bypassing login requirement as requested
+  /*
   if (!user) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
@@ -63,6 +65,7 @@ export default function Dashboard() {
       </div>
     );
   }
+  */
 
   return (
     <div className="flex h-screen w-full bg-slate-50 overflow-hidden">
@@ -106,22 +109,32 @@ export default function Dashboard() {
           <div className="bg-slate-800 rounded-2xl p-4 mb-4">
             <p className="text-[10px] text-slate-500 uppercase font-bold mb-2 tracking-widest">Usuario Activo</p>
             <div className="flex items-center gap-3">
-               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
-                 {user.displayName?.[0]}
+               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
+                 {user?.displayName ? user.displayName[0] : (user?.email ? user.email[0] : 'G')}
                </div>
                <div className="overflow-hidden">
-                 <p className="text-xs font-bold truncate">{user.displayName}</p>
-                 <p className="text-[10px] text-slate-500 truncate">{user.email}</p>
+                 <p className="text-xs font-bold truncate">{user?.displayName || 'Invitado'}</p>
+                 <p className="text-[10px] text-slate-500 truncate">{user?.email || 'Modo sin conexión'}</p>
                </div>
             </div>
           </div>
-          <button 
-            onClick={() => logout()}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-red-900/20 hover:text-red-400 text-slate-400 font-semibold rounded-xl transition-all border border-slate-700/50"
-          >
-            <LogOut size={16} />
-            Cerrar Sesión
-          </button>
+          {user ? (
+            <button 
+              onClick={() => logout()}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-red-900/20 hover:text-red-400 text-slate-400 font-semibold rounded-xl transition-all border border-slate-700/50"
+            >
+              <LogOut size={16} />
+              Cerrar Sesión
+            </button>
+          ) : (
+            <button 
+              onClick={handleLogin}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all border border-blue-500/50 shadow-lg shadow-blue-900/20"
+            >
+              <LogIn size={16} />
+              Iniciar Sesión
+            </button>
+          )}
         </div>
       </aside>
 
