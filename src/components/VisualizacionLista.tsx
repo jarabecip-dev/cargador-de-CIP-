@@ -73,118 +73,144 @@ export default function VisualizacionLista() {
 
   return (
     <div className="space-y-6">
-      {/* Filtros */}
-      <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-        <div className="flex items-center gap-2 mb-4 text-slate-800 font-semibold">
-          <Filter size={20} /> Filtros
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
-          <div className="space-y-1">
-            <label className="text-slate-500">ID</label>
+      {/* Filtros Bar */}
+      <div className="flex flex-wrap gap-4 items-end bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex-1 min-w-[200px] space-y-2">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Búsqueda rápida</label>
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
               type="text" 
-              placeholder="Buscar ID..."
+              placeholder="Buscar por ID..."
               value={filters.searchId}
               onChange={(e) => setFilters(f => ({ ...f, searchId: e.target.value }))}
-              className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-slate-500">Tarea</label>
-            <select 
-              value={filters.tarea}
-              onChange={(e) => setFilters(f => ({ ...f, tarea: e.target.value }))}
-              className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Todas</option>
-              {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </div>
-          <div className="space-y-1">
-            <label className="text-slate-500">CIP</label>
-            <select 
-              value={filters.cip}
-              onChange={(e) => setFilters(f => ({ ...f, cip: e.target.value }))}
-              className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Todos</option>
-              {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
-          <div className="space-y-1">
-            <label className="text-slate-500">Desde</label>
-            <input 
-              type="date"
-              value={filters.fechaDesde}
-              onChange={(e) => setFilters(f => ({ ...f, fechaDesde: e.target.value }))}
-              className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-slate-500">Hasta</label>
-            <input 
-              type="date"
-              value={filters.fechaHasta}
-              onChange={(e) => setFilters(f => ({ ...f, fechaHasta: e.target.value }))}
-              className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
             />
           </div>
         </div>
+        
+        <div className="space-y-2 min-w-[140px]">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tarea</label>
+          <select 
+            value={filters.tarea}
+            onChange={(e) => setFilters(f => ({ ...f, tarea: e.target.value }))}
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          >
+            <option value="">Todas</option>
+            {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+
+        <div className="space-y-2 min-w-[120px]">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">CIP</label>
+          <select 
+            value={filters.cip}
+            onChange={(e) => setFilters(f => ({ ...f, cip: e.target.value }))}
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          >
+            <option value="">Todos</option>
+            {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Fecha Desde</label>
+          <input 
+            type="date"
+            value={filters.fechaDesde}
+            onChange={(e) => setFilters(f => ({ ...f, fechaDesde: e.target.value }))}
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          />
+        </div>
+
+        <button 
+          onClick={() => setFilters({ tarea: '', cip: '', searchId: '', fechaDesde: '', fechaHasta: '' })}
+          className="p-3 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all border border-slate-200"
+          title="Limpiar filtros"
+        >
+          <X size={20} />
+        </button>
       </div>
 
-      {/* Tabla */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* Data Table Container */}
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+        <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-bottom border-slate-100">
-                <th onClick={() => handleSort('id')} className="p-4 cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">ID {sortBy.field === 'id' && (sortBy.direction === 'asc' ? <ArrowUp size={14}/> : <ArrowDown size={14}/>)}</div>
+            <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 z-10">
+              <tr>
+                <th onClick={() => handleSort('id')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center gap-1">ID {sortBy.field === 'id' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
                 </th>
-                <th className="p-4">Tarea</th>
-                <th onClick={() => handleSort('fecha')} className="p-4 cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">Fecha {sortBy.field === 'fecha' && (sortBy.direction === 'asc' ? <ArrowUp size={14}/> : <ArrowDown size={14}/>)}</div>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tarea</th>
+                <th onClick={() => handleSort('fecha')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center gap-1">Fecha / Hora {sortBy.field === 'fecha' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
                 </th>
-                <th className="p-4">Hora</th>
-                <th onClick={() => handleSort('dato_numerico')} className="p-4 cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">Dato {sortBy.field === 'dato_numerico' && (sortBy.direction === 'asc' ? <ArrowUp size={14}/> : <ArrowDown size={14}/>)}</div>
+                <th onClick={() => handleSort('dato_numerico')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center gap-1">Dato Numérico {sortBy.field === 'dato_numerico' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
                 </th>
-                <th className="p-4">CIP</th>
-                <th className="p-4">Creación</th>
-                <th className="p-4 text-center">Acciones</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">CIP</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Creado el</th>
+                <th className="px-6 py-4 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">Detalle</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredRegistros.map((reg) => (
-                <tr key={reg.id} className="hover:bg-blue-50/30 transition-colors group">
-                  <td className="p-4 font-mono text-blue-600">#{reg.id}</td>
-                  <td className="p-4"><span className="px-2 py-1 bg-slate-100 rounded-md text-xs font-semibold text-slate-700">{reg.tarea}</span></td>
-                  <td className="p-4 font-medium">{reg.fecha}</td>
-                  <td className="p-4 text-slate-500">{reg.hora}</td>
-                  <td className="p-4 font-bold text-slate-800">{reg.dato_numerico.toLocaleString()}</td>
-                  <td className="p-4"><span className="px-2 py-1 bg-blue-100 rounded-md text-xs font-semibold text-blue-700">{reg.cip}</span></td>
-                  <td className="p-4 text-xs text-slate-400">
-                    {reg.created_at?.toDate ? format(reg.created_at.toDate(), 'dd/MM/yy HH:mm', { locale: es }) : '-'}
+                <tr key={reg.id} className="hover:bg-blue-50/50 transition-colors group">
+                  <td className="px-6 py-4 font-mono font-bold text-blue-600 text-sm">#{reg.id.toString().padStart(3, '0')}</td>
+                  <td className="px-6 py-4">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                      reg.tarea.startsWith('Línea') ? 'bg-green-100 text-green-700' :
+                      reg.tarea.startsWith('TK') ? 'bg-amber-100 text-amber-700' :
+                      'bg-slate-100 text-slate-700'
+                    }`}>
+                      {reg.tarea}
+                    </span>
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="px-6 py-4 text-sm">
+                    <div className="font-bold text-slate-700">{format(new Date(reg.fecha), 'dd/MM/yyyy')}</div>
+                    <div className="text-[10px] text-slate-400 font-mono tracking-tighter">{reg.hora}</div>
+                  </td>
+                  <td className="px-6 py-4 font-mono font-bold text-slate-700 text-sm">{reg.dato_numerico.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  <td className="px-6 py-4">
+                    <span className="px-3 py-1 bg-slate-50 text-slate-600 rounded-md text-[10px] font-bold border border-slate-200">
+                      {reg.cip}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-[10px] text-slate-400 font-mono">
+                    {reg.created_at?.toDate ? format(reg.created_at.toDate(), 'dd/MM HH:mm:ss') : '-'}
+                  </td>
+                  <td className="px-6 py-4 text-center">
                     <button 
                       onClick={() => setSelectedRegistro(reg)}
-                      className="p-2 text-blue-600 hover:bg-blue-100 rounded-full transition-colors"
+                      className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
                     >
-                      <Eye size={18} />
+                      <Eye size={16} />
                     </button>
                   </td>
                 </tr>
               ))}
               {filteredRegistros.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-slate-400">
-                    No se encontraron registros coincidentes.
+                  <td colSpan={7} className="px-6 py-20 text-center text-slate-400">
+                    <div className="flex flex-col items-center gap-2">
+                       <Filter size={32} strokeWidth={1} />
+                       <p className="text-sm font-medium">No se encontraron registros para estos filtros.</p>
+                    </div>
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+        </div>
+        
+        {/* Pagination/Status Bar */}
+        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">
+            Mostrando {filteredRegistros.length} de {registros.length} registros
+          </p>
+          <div className="flex gap-2">
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-700 shadow-sm transition-all hover:bg-slate-50">1</button>
+          </div>
         </div>
       </div>
 

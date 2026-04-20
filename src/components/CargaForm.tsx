@@ -60,111 +60,113 @@ export default function CargaForm({ onClose, onSuccess }: Props) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      className="max-w-2xl mx-auto p-6 bg-white rounded-3xl shadow-xl border border-slate-100"
+      exit={{ opacity: 0, scale: 0.95 }}
+      className="max-w-xl mx-auto bg-white border border-slate-200 rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col"
     >
-      <div className="flex justify-between items-center mb-8">
+      <div className="p-8 h-20 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Cargar Datos</h2>
-          <p className="text-slate-500 text-sm">Ingrese la información del registro operativo</p>
+          <h3 className="text-xl font-bold text-slate-900">Cargar Registro</h3>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nuevo ingreso operativo</p>
         </div>
         <button 
           onClick={onClose}
-          className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400"
+          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
         >
-          <X size={24} />
+          <X size={20} />
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tarea */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <Tag size={16} className="text-slate-400" /> Tarea
-            </label>
-            <select
-              {...register('tarea')}
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-            >
-              <option value="">Seleccione una tarea</option>
-              {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-            {errors.tarea && <p className="text-red-500 text-xs mt-1">{errors.tarea.message}</p>}
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+        <div className="p-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Tarea */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                Tarea
+              </label>
+              <select
+                {...register('tarea')}
+                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm appearance-none"
+              >
+                <option value="">Seleccione línea...</option>
+                {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+              {errors.tarea && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.tarea.message}</p>}
+            </div>
 
-          {/* CIP */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <Hash size={16} className="text-slate-400" /> CIP
-            </label>
-            <select
-              {...register('cip')}
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-            >
-              <option value="">Seleccione un CIP</option>
-              {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-            {errors.cip && <p className="text-red-500 text-xs mt-1">{errors.cip.message}</p>}
-          </div>
+            {/* CIP */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                CIP
+              </label>
+              <select
+                {...register('cip')}
+                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm appearance-none"
+              >
+                <option value="">Seleccione CIP...</option>
+                {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              {errors.cip && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.cip.message}</p>}
+            </div>
 
-          {/* Fecha */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <CalendarIcon size={16} className="text-slate-400" /> Fecha
-            </label>
-            <input
-              type="date"
-              {...register('fecha')}
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-            />
-            {errors.fecha && <p className="text-red-500 text-xs mt-1">{errors.fecha.message}</p>}
-          </div>
+            {/* Fecha */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                Fecha
+              </label>
+              <input
+                type="date"
+                {...register('fecha')}
+                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+              />
+              {errors.fecha && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.fecha.message}</p>}
+            </div>
 
-          {/* Hora */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <Clock size={16} className="text-slate-400" /> Hora
-            </label>
-            <input
-              type="time"
-              {...register('hora')}
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-            />
-            {errors.hora && <p className="text-red-500 text-xs mt-1">{errors.hora.message}</p>}
-          </div>
+            {/* Hora */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                Hora
+              </label>
+              <input
+                type="time"
+                {...register('hora')}
+                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+              />
+              {errors.hora && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.hora.message}</p>}
+            </div>
 
-          {/* Dato Numérico */}
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-              Dato Numérico
-            </label>
-            <input
-              type="number"
-              step="any"
-              {...register('dato_numerico', { valueAsNumber: true })}
-              placeholder="0.00"
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-            />
-            {errors.dato_numerico && <p className="text-red-500 text-xs mt-1">{errors.dato_numerico.message}</p>}
+            {/* Dato Numérico */}
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                Dato Numérico
+              </label>
+              <input
+                type="number"
+                step="any"
+                {...register('dato_numerico', { valueAsNumber: true })}
+                placeholder="0.00"
+                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-lg font-mono"
+              />
+              {errors.dato_numerico && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.dato_numerico.message}</p>}
+            </div>
           </div>
         </div>
 
-        <div className="pt-4 flex gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 p-4 bg-slate-100 text-slate-600 rounded-2xl font-semibold hover:bg-slate-200 transition-all"
-          >
-            Cancelar
-          </button>
+        <div className="p-8 bg-slate-50 border-t border-slate-100 flex flex-col gap-4">
           <button
             type="submit"
             disabled={loading}
-            className="flex-3 p-4 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+            className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-lg"
           >
             {loading ? <Loader2 className="animate-spin" /> : <Save size={20} />}
-            Guardar datos
+            Guardar Datos
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full py-3 text-slate-400 font-bold uppercase tracking-widest text-[10px] hover:text-slate-600 transition-colors"
+          >
+            Cancelar operación
           </button>
         </div>
       </form>
