@@ -72,93 +72,93 @@ export default function VisualizacionLista() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       {/* Filtros Bar */}
-      <div className="flex flex-wrap gap-4 items-end bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <div className="flex-1 min-w-[200px] space-y-2">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Búsqueda rápida</label>
+      <div className="flex flex-wrap gap-3 lg:gap-4 items-end bg-white p-4 lg:p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex-1 min-w-[180px] space-y-1.5">
+          <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Búsqueda rápida</label>
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
             <input 
               type="text" 
-              placeholder="Buscar por ID..."
+              placeholder="Buscar ID..."
               value={filters.searchId}
               onChange={(e) => setFilters(f => ({ ...f, searchId: e.target.value }))}
-              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+              className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs lg:text-sm"
             />
           </div>
         </div>
         
-        <div className="space-y-2 min-w-[140px]">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tarea</label>
+        <div className="space-y-1.5 min-w-[120px]">
+          <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tarea</label>
           <select 
             value={filters.tarea}
             onChange={(e) => setFilters(f => ({ ...f, tarea: e.target.value }))}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-xs lg:text-sm"
           >
             <option value="">Todas</option>
             {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
 
-        <div className="space-y-2 min-w-[120px]">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">CIP</label>
+        <div className="space-y-1.5 min-w-[100px]">
+          <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest">CIP</label>
           <select 
             value={filters.cip}
             onChange={(e) => setFilters(f => ({ ...f, cip: e.target.value }))}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-xs lg:text-sm"
           >
             <option value="">Todos</option>
             {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Fecha Desde</label>
+        <div className="space-y-1.5 min-w-[140px]">
+          <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Desde</label>
           <input 
             type="date"
             value={filters.fechaDesde}
             onChange={(e) => setFilters(f => ({ ...f, fechaDesde: e.target.value }))}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-xs lg:text-sm"
           />
         </div>
 
         <button 
           onClick={() => setFilters({ tarea: '', cip: '', searchId: '', fechaDesde: '', fechaHasta: '' })}
-          className="p-3 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all border border-slate-200"
+          className="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all border border-slate-200 shrink-0"
           title="Limpiar filtros"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
       </div>
 
       {/* Data Table Container */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
         <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 z-10">
               <tr>
-                <th onClick={() => handleSort('id')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">ID {sortBy.field === 'id' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
+                <th onClick={() => handleSort('id')} className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center gap-1 min-w-[50px]">ID {sortBy.field === 'id' && (sortBy.direction === 'asc' ? <ArrowUp size={10}/> : <ArrowDown size={10}/>)}</div>
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tarea</th>
-                <th onClick={() => handleSort('fecha')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">Fecha / Hora {sortBy.field === 'fecha' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider min-w-[100px]">Tarea</th>
+                <th onClick={() => handleSort('fecha')} className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors min-w-[120px]">
+                  <div className="flex items-center gap-1">Fecha / Hora {sortBy.field === 'fecha' && (sortBy.direction === 'asc' ? <ArrowUp size={10}/> : <ArrowDown size={10}/>)}</div>
                 </th>
-                <th onClick={() => handleSort('dato_numerico')} className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-1">Dato Numérico {sortBy.field === 'dato_numerico' && (sortBy.direction === 'asc' ? <ArrowUp size={12}/> : <ArrowDown size={12}/>)}</div>
+                <th onClick={() => handleSort('dato_numerico')} className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors min-w-[100px]">
+                  <div className="flex items-center gap-1">Dato {sortBy.field === 'dato_numerico' && (sortBy.direction === 'asc' ? <ArrowUp size={10}/> : <ArrowDown size={10}/>)}</div>
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">CIP</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Creado el</th>
-                <th className="px-6 py-4 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">Detalle</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider">CIP</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider min-w-[110px]">Creado</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Detalle</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredRegistros.map((reg) => (
                 <tr key={reg.id} className="hover:bg-blue-50/50 transition-colors group">
-                  <td className="px-6 py-4 font-mono font-bold text-blue-600 text-sm">#{reg.id.toString().padStart(3, '0')}</td>
-                  <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                  <td className="px-4 lg:px-6 py-3 lg:py-4 font-mono font-bold text-blue-600 text-xs lg:text-sm">#{reg.id.toString().padStart(3, '0')}</td>
+                  <td className="px-4 lg:px-6 py-3 lg:py-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${
                       reg.tarea.startsWith('Línea') ? 'bg-green-100 text-green-700' :
                       reg.tarea.startsWith('TK') ? 'bg-amber-100 text-amber-700' :
                       'bg-slate-100 text-slate-700'
@@ -166,25 +166,27 @@ export default function VisualizacionLista() {
                       {reg.tarea}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm">
+                  <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs">
                     <div className="font-bold text-slate-700">{format(new Date(reg.fecha), 'dd/MM/yyyy')}</div>
-                    <div className="text-[10px] text-slate-400 font-mono tracking-tighter">{reg.hora}</div>
+                    <div className="text-[9px] text-slate-400 font-mono tracking-tighter">{reg.hora}</div>
                   </td>
-                  <td className="px-6 py-4 font-mono font-bold text-slate-700 text-sm">{reg.dato_numerico.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 bg-slate-50 text-slate-600 rounded-md text-[10px] font-bold border border-slate-200">
+                  <td className="px-4 lg:px-6 py-3 lg:py-4 font-mono font-bold text-slate-700 text-xs lg:text-sm whitespace-nowrap">
+                    {reg.dato_numerico.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </td>
+                  <td className="px-4 lg:px-6 py-3 lg:py-4">
+                    <span className="px-2 py-0.5 bg-slate-50 text-slate-500 rounded text-[9px] font-bold border border-slate-200">
                       {reg.cip}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-[10px] text-slate-400 font-mono">
+                  <td className="px-4 lg:px-6 py-3 lg:py-4 text-[9px] text-slate-300 font-mono">
                     {reg.created_at?.toDate ? format(reg.created_at.toDate(), 'dd/MM HH:mm:ss') : '-'}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 lg:px-6 py-3 lg:py-4 text-center">
                     <button 
                       onClick={() => setSelectedRegistro(reg)}
-                      className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                      className="p-1.5 text-slate-300 hover:text-blue-600 transition-colors"
                     >
-                      <Eye size={16} />
+                      <Eye size={14} />
                     </button>
                   </td>
                 </tr>

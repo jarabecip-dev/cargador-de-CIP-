@@ -61,83 +61,83 @@ export default function CargaForm({ onClose, onSuccess }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className="max-w-xl mx-auto bg-white border border-slate-200 rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col"
+      className="max-w-xl mx-auto bg-white border border-slate-200 rounded-3xl lg:rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col max-h-[calc(100vh-2rem)]"
     >
-      <div className="p-8 h-20 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+      <div className="p-4 lg:p-8 h-16 lg:h-20 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
         <div>
-          <h3 className="text-xl font-bold text-slate-900">Cargar Registro</h3>
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nuevo ingreso operativo</p>
+          <h3 className="text-base lg:text-xl font-bold text-slate-900">Cargar Registro</h3>
+          <p className="text-[9px] lg:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nuevo ingreso operativo</p>
         </div>
         <button 
           onClick={onClose}
-          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+          className="p-1.5 lg:p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
         >
           <X size={20} />
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-        <div className="p-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col overflow-hidden">
+        <div className="p-4 lg:p-8 space-y-4 lg:space-y-6 overflow-y-auto custom-scrollbar">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             {/* Tarea */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="space-y-1.5 lg:space-y-2">
+              <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 Tarea
               </label>
               <select
                 {...register('tarea')}
-                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm appearance-none"
+                className="w-full p-3 lg:p-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs lg:text-sm appearance-none"
               >
                 <option value="">Seleccione línea...</option>
                 {TAREAS.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
-              {errors.tarea && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.tarea.message}</p>}
+              {errors.tarea && <p className="text-red-500 text-[9px] lg:text-[10px] font-bold uppercase mt-1 px-1">{errors.tarea.message}</p>}
             </div>
 
             {/* CIP */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="space-y-1.5 lg:space-y-2">
+              <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 CIP
               </label>
               <select
                 {...register('cip')}
-                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm appearance-none"
+                className="w-full p-3 lg:p-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs lg:text-sm appearance-none"
               >
                 <option value="">Seleccione CIP...</option>
                 {CIPS.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              {errors.cip && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.cip.message}</p>}
+              {errors.cip && <p className="text-red-500 text-[9px] lg:text-[10px] font-bold uppercase mt-1 px-1">{errors.cip.message}</p>}
             </div>
 
             {/* Fecha */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="space-y-1.5 lg:space-y-2">
+              <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 Fecha
               </label>
               <input
                 type="date"
                 {...register('fecha')}
-                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                className="w-full p-3 lg:p-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs lg:text-sm"
               />
-              {errors.fecha && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.fecha.message}</p>}
+              {errors.fecha && <p className="text-red-500 text-[9px] lg:text-[10px] font-bold uppercase mt-1 px-1">{errors.fecha.message}</p>}
             </div>
 
             {/* Hora */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="space-y-1.5 lg:space-y-2">
+              <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 Hora
               </label>
               <input
                 type="time"
                 {...register('hora')}
-                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                className="w-full p-3 lg:p-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs lg:text-sm"
               />
-              {errors.hora && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.hora.message}</p>}
+              {errors.hora && <p className="text-red-500 text-[9px] lg:text-[10px] font-bold uppercase mt-1 px-1">{errors.hora.message}</p>}
             </div>
 
             {/* Dato Numérico */}
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="space-y-1.5 lg:space-y-2 sm:col-span-2">
+              <label className="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 Dato Numérico
               </label>
               <input
@@ -145,26 +145,26 @@ export default function CargaForm({ onClose, onSuccess }: Props) {
                 step="any"
                 {...register('dato_numerico', { valueAsNumber: true })}
                 placeholder="0.00"
-                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-lg font-mono"
+                className="w-full p-3 lg:p-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm lg:text-lg font-mono"
               />
-              {errors.dato_numerico && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1">{errors.dato_numerico.message}</p>}
+              {errors.dato_numerico && <p className="text-red-500 text-[9px] lg:text-[10px] font-bold uppercase mt-1 px-1">{errors.dato_numerico.message}</p>}
             </div>
           </div>
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-100 flex flex-col gap-4">
+        <div className="p-4 lg:p-8 bg-slate-50 border-t border-slate-100 flex flex-col gap-3 shrink-0">
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-lg"
+            className="w-full py-3 lg:py-4 bg-blue-600 text-white font-bold rounded-xl lg:rounded-2xl shadow-xl shadow-blue-100 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-sm lg:text-lg"
           >
-            {loading ? <Loader2 className="animate-spin" /> : <Save size={20} />}
+            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
             Guardar Datos
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="w-full py-3 text-slate-400 font-bold uppercase tracking-widest text-[10px] hover:text-slate-600 transition-colors"
+            className="w-full py-2 text-slate-400 font-bold uppercase tracking-widest text-[9px] lg:text-[10px] hover:text-slate-600 transition-colors"
           >
             Cancelar operación
           </button>

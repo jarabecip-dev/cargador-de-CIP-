@@ -14,6 +14,8 @@ export default function Dashboard() {
   const [view, setView] = React.useState<View>('idle');
   const [authLoading, setAuthLoading] = React.useState(true);
 
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
@@ -30,6 +32,74 @@ export default function Dashboard() {
       toast.error('Error al iniciar sesión');
     }
   };
+
+  const SidebarContent = () => (
+    <>
+      <div className="p-6">
+        <div 
+          onClick={() => { setView('idle'); setIsSidebarOpen(false); }}
+          className="flex items-center gap-3 mb-8 cursor-pointer group"
+        >
+          <div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg shadow-blue-900/20">
+            <Database size={20} />
+          </div>
+          <div>
+            <span className="font-bold text-white block leading-none">DataMaster</span>
+            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Operaciones</span>
+          </div>
+        </div>
+
+        <nav className="space-y-1">
+          <button 
+            onClick={() => { setView('visualizacion'); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${view === 'visualizacion' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+          >
+            <Table size={20} />
+            Visualizar Datos
+          </button>
+          <button 
+            onClick={() => { setView('carga'); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${view === 'carga' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+          >
+            <PlusCircle size={20} />
+            Cargar Datos
+          </button>
+        </nav>
+      </div>
+
+      <div className="mt-auto p-6">
+        <div className="bg-slate-800 rounded-2xl p-4 mb-4">
+          <p className="text-[10px] text-slate-500 uppercase font-bold mb-2 tracking-widest">Usuario Activo</p>
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
+               {user?.displayName ? user.displayName[0] : (user?.email ? user.email[0] : 'G')}
+             </div>
+             <div className="overflow-hidden">
+               <p className="text-xs font-bold truncate">{user?.displayName || 'Invitado'}</p>
+               <p className="text-[10px] text-slate-500 truncate">{user?.email || 'Modo sin conexión'}</p>
+             </div>
+          </div>
+        </div>
+        {user ? (
+          <button 
+            onClick={() => logout()}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-red-900/20 hover:text-red-400 text-slate-400 font-semibold rounded-xl transition-all border border-slate-700/50"
+          >
+            <LogOut size={16} />
+            Cerrar Sesión
+          </button>
+        ) : (
+          <button 
+            onClick={handleLogin}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all border border-blue-500/50 shadow-lg shadow-blue-900/20"
+          >
+            <LogIn size={16} />
+            Iniciar Sesión
+          </button>
+        )}
+      </div>
+    </>
+  );
 
   if (authLoading) {
     return (
@@ -68,101 +138,86 @@ export default function Dashboard() {
   */
 
   return (
-    <div className="flex h-screen w-full bg-slate-50 overflow-hidden">
+    <div className="flex h-screen w-full bg-slate-50 overflow-hidden relative">
       <Toaster position="top-right" expand={false} richColors />
       
-      {/* Side Navigation */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col shrink-0">
-        <div className="p-6">
-          <div 
-            onClick={() => setView('idle')}
-            className="flex items-center gap-3 mb-8 cursor-pointer group"
-          >
-            <div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg shadow-blue-900/20">
-              <Database size={20} />
-            </div>
-            <div>
-              <span className="font-bold text-white block leading-none">DataMaster</span>
-              <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Operaciones</span>
-            </div>
-          </div>
+      {/* Mobile Backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
 
-          <nav className="space-y-1">
-            <button 
-              onClick={() => setView('visualizacion')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${view === 'visualizacion' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
-            >
-              <Table size={20} />
-              Visualizar Datos
-            </button>
-            <button 
-              onClick={() => setView('carga')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${view === 'carga' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
-            >
-              <PlusCircle size={20} />
-              Cargar Datos
-            </button>
-          </nav>
-        </div>
-
-        <div className="mt-auto p-6">
-          <div className="bg-slate-800 rounded-2xl p-4 mb-4">
-            <p className="text-[10px] text-slate-500 uppercase font-bold mb-2 tracking-widest">Usuario Activo</p>
-            <div className="flex items-center gap-3">
-               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
-                 {user?.displayName ? user.displayName[0] : (user?.email ? user.email[0] : 'G')}
-               </div>
-               <div className="overflow-hidden">
-                 <p className="text-xs font-bold truncate">{user?.displayName || 'Invitado'}</p>
-                 <p className="text-[10px] text-slate-500 truncate">{user?.email || 'Modo sin conexión'}</p>
-               </div>
-            </div>
-          </div>
-          {user ? (
-            <button 
-              onClick={() => logout()}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-red-900/20 hover:text-red-400 text-slate-400 font-semibold rounded-xl transition-all border border-slate-700/50"
-            >
-              <LogOut size={16} />
-              Cerrar Sesión
-            </button>
-          ) : (
-            <button 
-              onClick={handleLogin}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all border border-blue-500/50 shadow-lg shadow-blue-900/20"
-            >
-              <LogIn size={16} />
-              Iniciar Sesión
-            </button>
-          )}
-        </div>
+      {/* Side Navigation (Desktop) */}
+      <aside className="hidden lg:flex w-64 bg-slate-900 text-white flex-col shrink-0">
+        <SidebarContent />
       </aside>
 
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside 
+            initial={{ x: -280 }}
+            animate={{ x: 0 }}
+            exit={{ x: -280 }}
+            className="fixed top-0 left-0 bottom-0 w-[280px] bg-slate-900 text-white z-50 flex flex-col lg:hidden shadow-2xl"
+          >
+            <SidebarContent />
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between shrink-0">
-          <div>
-            <h2 className="text-xl font-bold text-slate-900">
-              {view === 'idle' ? 'Inicio' : view === 'carga' ? 'Cargar Registro' : 'Visualización de Datos'}
-            </h2>
-            <p className="text-sm text-slate-500">
-              {view === 'idle' ? 'Bienvenido al panel central' : view === 'carga' ? 'Complete el formulario para guardar datos' : 'Listado de registros operativos persistentes'}
-            </p>
-          </div>
-          {view === 'visualizacion' && (
+        <header className="h-16 lg:h-20 bg-white border-b border-slate-200 px-4 lg:px-8 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-4">
             <button 
-              onClick={() => setView('carga')}
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
+              onClick={() => setIsSidebarOpen(true)}
+              className="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg"
             >
-              <PlusCircle size={18} />
-              + Nuevo Registro
+              <Database size={24} />
             </button>
-          )}
+            <div>
+              <h2 className="text-lg lg:text-xl font-bold text-slate-900 leading-tight">
+                {view === 'idle' ? 'Inicio' : view === 'carga' ? 'Cargar Registro' : 'Visualización'}
+              </h2>
+              <p className="text-[10px] lg:text-sm text-slate-500 hidden sm:block">
+                {view === 'idle' ? 'Panel de control' : view === 'carga' ? 'Complete los datos' : 'Historial de registros'}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {view === 'visualizacion' && (
+              <button 
+                onClick={() => setView('carga')}
+                className="px-3 lg:px-6 py-2 lg:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs lg:text-sm font-semibold rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
+              >
+                <PlusCircle size={16} />
+                <span className="hidden xs:inline">Nuevo</span>
+              </button>
+            )}
+            {!user && (
+              <button 
+                onClick={handleLogin}
+                className="sm:hidden p-2 text-blue-600 bg-blue-50 rounded-lg"
+                title="Iniciar sesión"
+              >
+                <LogIn size={20} />
+              </button>
+            )}
+          </div>
         </header>
 
         {/* Content Scroll Area */}
-        <div className="flex-1 overflow-auto custom-scrollbar p-8">
+        <div className="flex-1 overflow-auto custom-scrollbar p-4 lg:p-8">
           <AnimatePresence mode="wait">
             {view === 'idle' && (
               <motion.div 

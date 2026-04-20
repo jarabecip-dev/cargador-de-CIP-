@@ -6,8 +6,8 @@
 }
 
 @layer base {
-  body {
-    @apply bg-slate-50 text-slate-800 font-sans;
+  html, body {
+    @apply bg-slate-50 text-slate-800 font-sans overflow-hidden h-full;
   }
 }
 
